@@ -146,7 +146,8 @@ def create_event(component, tz=UTC):
 
     organizer = component.get('organizer')
     if organizer:
-        event.organizer = str(component.get('organizer').params.get('CN'))
+        event.organizer = {'email': str(organizer)[7:] if len(str(organizer)) > 7 else None,
+                           'name': organizer.params.get('CN')}
 
     return event
 
