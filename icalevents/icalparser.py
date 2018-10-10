@@ -40,6 +40,7 @@ class Event:
         self.start = None
         self.end = None
         self.all_day = True
+        self.organizer = None
 
     def time_left(self, time=now()):
         """
@@ -106,6 +107,7 @@ class Event:
         ne = Event()
         ne.summary = self.summary
         ne.description = self.description
+        ne.organizer = self.organizer
         ne.start = new_start
         
         if self.end:
@@ -141,6 +143,10 @@ def create_event(component, tz=UTC):
     event.summary = str(component.get('summary'))
     event.description = str(component.get('description'))
     event.all_day = type(component.get('dtstart').dt) is date
+
+    organizer = component.get('organizer')
+    if organizer:
+        event.organizer = str(component.get('organizer').params.get('CN'))
 
     return event
 
